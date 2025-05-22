@@ -1,0 +1,100 @@
+@startuml
+
+' Interfaces
+interface UserInterface {
+    +getName(): String
+    +getAge(): int
+    +getRole(): String
+}
+
+interface AnimalInterface {
+    +getName(): String
+    +getBirthDate(): Date
+    +getWeight(): Double
+    +getBreed(): Breed
+    +getAge(): int
+    +getCareRecommendations(): String
+}
+
+' Abstract Classes
+abstract class User {
+    -name: String
+    -age: int
+    +{abstract} getRole(): String
+}
+
+' Classes
+class AdoptionEmployee {
+    -instance: AdoptionEmployee
+    +getInstance(name: String, age: int): AdoptionEmployee
+    +getInstance(): AdoptionEmployee
+}
+
+class Owner {
+    -address: String
+    +getAddress(): String
+}
+
+class Animal {
+    -name: String
+    -birthDate: Date
+    -weight: Double
+    -breed: Breed
+}
+
+class Breed {
+    -name: String
+    -recommendation: BreedRecommendation
+    -isCommonBreed: boolean
+    +createCustomBreed(name: String, recommendation: BreedRecommendation): Breed
+    +getCareRecommendations(animal: Animal): String
+}
+
+class BreedRecommendation {
+    -breedName: String
+    -foodRecommendation: String
+    -walkRecommendation: String
+    -healthRecommendation: String
+    +getCompleteRecommendations(animal: Animal): String
+}
+
+class Adoption {
+    -owner: Owner
+    -pet: Animal
+    -employee: AdoptionEmployee
+    -adoptionDate: Date
+}
+
+class AdoptionTicket {
+    -adoption: Adoption
+    +generateTicket(): String
+}
+
+class GermanShepherd {
+    +setupRecommendations(): void
+}
+
+class Persian {
+    +setupRecommendations(): void
+}
+
+' Relationships
+UserInterface <|.. User
+User <|-- AdoptionEmployee
+User <|-- Owner
+
+AnimalInterface <|.. Animal
+
+Breed <|-- GermanShepherd
+Breed <|-- Persian
+
+Breed "1" -- "1" BreedRecommendation
+Animal "1" -- "1" Breed
+
+Adoption "1" -- "1" Owner
+Adoption "1" -- "1" Animal
+Adoption "1" -- "1" AdoptionEmployee
+
+AdoptionTicket "1" -- "1" Adoption
+
+@enduml 

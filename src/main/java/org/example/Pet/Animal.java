@@ -2,8 +2,9 @@ package org.example.Pet;
 
 import java.util.Date;
 import java.util.Calendar;
+import org.example.Pet.Breed.Breed;
 
-public class Animal {
+public class Animal implements AnimalInterface {
     private String name;
     private Date birthDate;
     private Double weight;
@@ -16,18 +17,27 @@ public class Animal {
         this.breed = breed;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    @Override
     public Double getWeight() {
         return weight;
     }
 
+    @Override
     public Breed getBreed() {
         return breed;
     }
 
+    @Override
     public int getAge() {
         Calendar birth = Calendar.getInstance();
         birth.setTime(birthDate);
@@ -35,7 +45,7 @@ public class Animal {
         
         int age = today.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
         
-        // Adjust age if birthday hasn't occurred this year
+        // Already had birthday this year?
         if (birth.get(Calendar.MONTH) > today.get(Calendar.MONTH) || 
             (birth.get(Calendar.MONTH) == today.get(Calendar.MONTH) && 
              birth.get(Calendar.DAY_OF_MONTH) > today.get(Calendar.DAY_OF_MONTH))) {
@@ -45,8 +55,8 @@ public class Animal {
         return age;
     }
 
-    public char[] getCareRecommendations(Animal persianCat) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCareRecommendations'");
+    @Override
+    public String getCareRecommendations() {
+        return breed.getCareRecommendations(this);
     }
 }
